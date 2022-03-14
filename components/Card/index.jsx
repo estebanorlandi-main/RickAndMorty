@@ -28,7 +28,7 @@ function Card({ character }) {
         }
         .img-container {
           display: block;
-          height: 100%;
+          width: 100%;
           max-width: 5rem;
         }
         @media (min-width: 30rem) {
