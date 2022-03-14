@@ -4,13 +4,9 @@ function Menu() {
   return (
     <ul className="flex items-center gap-x-2 sm:gap-x-2 md:gap-x-5 lg:gap-x-7">
       <li>
-        <Link href="/episodes">Episodes</Link>
-      </li>
-      <li>
-        <Link href="/characters">Characters</Link>
-      </li>
-      <li>
-        <Link href="/locations">Locations</Link>
+        <Link href="/characters" passHref>
+          <a href=".">Characters</a>
+        </Link>
       </li>
     </ul>
   );
