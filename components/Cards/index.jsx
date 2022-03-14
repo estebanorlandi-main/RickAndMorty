@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import Card from '../Card';
 
 function Cards({ characters }) {
@@ -5,7 +6,11 @@ function Cards({ characters }) {
     <>
       <ul>
         {characters.map((character) => (
-          <Card character={character} key={character.id} />
+          <Link href={`/character/${character.id}`} key={character.id}>
+            <a href=".">
+              <Card character={character} />
+            </a>
+          </Link>
         ))}
       </ul>
       <style jsx>{`
