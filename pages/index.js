@@ -1,21 +1,13 @@
 import axios from 'axios';
 import Head from 'next/head';
 import Link from 'next/link';
+import Image from 'next/image';
 
 import Navbar from '../components/Navbar';
 import Container from '../components/Container';
 
-function Section({ children, bg }) {
-  return (
-    <li
-      className={`${bg} flex font-bold items-center justify-center rounded-md text-md text-white shadow hover:shadow-md`}
-    >
-      {children}
-    </li>
-  );
-}
-
-export default function Home() {
+export default function Home({ data }) {
+  console.log(data);
   return (
     <>
       <Head>
@@ -29,35 +21,47 @@ export default function Home() {
       <main>
         <Container className="my-5 h-80">
           <ul className="grid grid-cols-3 gap-x-2 lg:gap-x-32 my-10 md:gap-x-16 sm:gap-x-5 ">
-            <Section bg="bg-purple-600">
-              <Link href="/episodes" passHref>
-                <a className="py-3 w-full text-center" href=".">
-                  Episodes
-                </a>
-              </Link>
-            </Section>
-            <Section bg="bg-purple-600">
-              <Link href="/characters" passHref>
-                <a className="py-3 w-full text-center" href=".">
-                  Characters
-                </a>
-              </Link>
-            </Section>
-
-            <Section bg="bg-purple-600">
-              <Link href="/locations" passHref>
-                <a className="py-3 w-full text-center" href=".">
-                  Locations
-                </a>
-              </Link>
-            </Section>
+            {data.map((character) => (
+              <li key="" className="relative">
+                <Link href={`/characters/${character.id}`} passHref>
+                  <a className="text-center" href=".">
+                    <div className="img-container">
+                      <Image
+                        width="300"
+                        height="300"
+                        src={character.image}
+                        alt=""
+                      />
+                    </div>
+                    <h1>{character.name}</h1>
+                  </a>
+                </Link>
+              </li>
+            ))}
           </ul>
         </Container>
       </main>
 
-      <footer className="bg-purple-800 py-5 text-white">
-        <Container>Footer Section</Container>
-      </footer>
+      <style jsx>{`
+        .img-container {
+          width: 100%;
+        }
+        h1 {
+          display: flex;
+          align-items: flex-end;
+          justify-content: center;
+          height: 100%;
+          background: linear-gradient(0deg, #030303bb, transparent);
+          width: 100%;
+          position: absolute;
+          top: 0;
+          left: 0;
+          color: #fff;
+
+          font-size: 2rem;
+          font-weight: bold;
+        }
+      `}</style>
     </>
   );
 }
@@ -65,11 +69,26 @@ export default function Home() {
 /*
  * This function is called only at build time and pass return as props
  */
-export async function getStaticProps() {
-  const { data } = await axios('https://rickandmortyapi.com/api/');
+export async function getServerSideProps() {
+  const { data } = await axios('https://rickandmortyapi.com/api/character');
+  if (!data.info) return { props: { data: {} } };
+
+  const { count } = data.info;
+
+  const randomId = [];
+
+  for (let i = 0; i < 3; i += 1)
+    randomId.push(Math.floor(Math.random() * (count - 1)));
+
+  const { data: res } = await axios(
+    `https://rickandmortyapi.com/api/character/${randomId.map(
+      (id, i) => `${encodeURIComponent(id)}`,
+    )}`,
+  );
+
   return {
     props: {
-      data,
+      data: res,
     },
   };
 }
