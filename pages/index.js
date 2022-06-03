@@ -6,7 +6,7 @@ function Landing() {
     <>
       <main>
         <Container className="flex py-10 items-end justify-center w-screen min-h-screen bg-[url('/images/img-ram-portal.png')] bg-center bg-no-repeat">
-          <Link href="/characters" passHref>
+          <Link href="/characters/1" passHref>
             <a
               href="."
               className="bg-purple-500 p-5 px-8 rounded-full text-white font-bold text-2xl shadow-md shadow-purple-500 hover:shadow-lg"
