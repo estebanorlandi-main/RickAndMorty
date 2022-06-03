@@ -1,8 +1,9 @@
+import axios from 'axios';
+
 import getCharacters from '../../graphql/getCharacters';
 
 import Container from '../../components/Container';
 import Cards from '../../components/Cards';
-import axios from 'axios';
 
 function Characters({ data: { characters } }) {
   return (
