@@ -4,9 +4,9 @@ import Container from '../../components/Container';
 import getCharacter from '../../graphql/getCharacter';
 
 const colors = {
-  death: '#f55',
-  unknown: '#1e2025',
-  alive: '#0f0',
+  dead: { fg: '#fff', bg: '#f55' },
+  unknown: { fg: '#fff', bg: '#1e2025' },
+  alive: { fg: '#000', bg: '#0f0' },
 };
 
 function Character({ character }) {
@@ -26,7 +26,7 @@ function Character({ character }) {
           <h2>Name: {character.name}</h2>
 
           <div className="info">
-            <span className="status">Status: {character.status}</span>
+            <span className="status">{character.status}</span>
             <p>Specie: {character.species}</p>
           </div>
         </main>
@@ -52,14 +52,14 @@ function Character({ character }) {
           margin: 0 auto;
         }
         .status {
+          width: max-content;
+          border-radius: 5px;
           display: block;
           box-sizing: border-box;
-          padding: 0.5rem 1rem;
+          padding: 0.25rem 0.75rem;
           font-weight: 500;
-          background: ${colors[character.status.toLowerCase()]};
-          color: ${character.status.toLowerCase() === 'unknown'
-            ? '#fff'
-            : '#000'};
+          background: ${colors[character.status.toLowerCase()].bg};
+          color: ${colors[character.status.toLowerCase()].fg};
         }
       `}</style>
     </>
